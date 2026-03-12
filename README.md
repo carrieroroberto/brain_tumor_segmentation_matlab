@@ -28,7 +28,7 @@ brain-tumor-segmentation/
 │
 ├── main.m                      % Main pipeline script
 ├── data_exploration.m          % Interactive tool (2D Slider and 3D Rendering) for EDA
-├── README.md                   % This documentation
+├── README.md                   % Project documentation
 │
 ├── dataset/                    % Place NIfTI volumes here (e.g., brats_sample.nii.gz)
 │
@@ -48,15 +48,16 @@ brain-tumor-segmentation/
 ├── post_processing/            % [PHASE 3] Refinement
 │   └── refinement.m            % Morphological operators (Opening, Closing, Hole Filling)
 │
-└── results_manager/            % Support tools
+├── results_manager/            % Support tools
 │   ├── evaluation.m            % Calculation of Dice Similarity Coefficient (DSC)
 │   └── plot_manager.m          % Generation and export of high-resolution plots
 │
-├── deliverables/
-    ├── presentation.pptx
+└── deliverables/               % Final materials prepared for project submission
+    ├── presentation.pptx       % Project presentation slides
     │
-    └── report/
-        ├── report.pdf
+    └── report/                 % Final written report and source files
+        ├── report.pdf          % Compiled version of the report
         │
-        └── tex/
-            └── main.tex
+        └── tex/                % LaTeX source used to generate the report
+            └── main.tex        % Main LaTeX document
+```
