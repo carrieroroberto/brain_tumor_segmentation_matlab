@@ -1,5 +1,4 @@
-# Brain Tumor Segmentation in MATLAB
-**Brain Tumor Segmentation Pipeline Using Traditional Image Processing Techniques**
+# Brain Tumor Segmentation in MATLAB using Traditional Image Processing techniques**
 
 The goal of this repository is to implement and compare two paradigms for the automatic segmentation of brain gliomas on MRI scans (BraTS/Decathlon dataset): 
 1. **Seeded Region Growing** (similarity-based approach).
@@ -9,7 +8,7 @@ The entire pipeline is developed in **MATLAB** without the use of neural network
 
 ---
 
-## 📂 Dataset Download
+## Dataset Download
 The original MRI data (in NIfTI `.nii.gz` format) is required to run the code. Due to file size constraints, they are not included directly in this repository.
 
 **Import Instructions:**
@@ -19,7 +18,7 @@ The original MRI data (in NIfTI `.nii.gz` format) is required to run the code. D
 
 ---
 
-## 🛠️ Project Architecture
+## Project Architecture
 
 ```text
 brain-tumor-segmentation/
