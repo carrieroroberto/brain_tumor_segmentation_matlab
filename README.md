@@ -49,5 +49,14 @@ brain-tumor-segmentation/
 │   └── refinement.m            % Morphological operators (Opening, Closing, Hole Filling)
 │
 └── results_manager/            % Support tools
-    ├── evaluation.m            % Calculation of Dice Similarity Coefficient (DSC)
-    └── plot_manager.m          % Generation and export of high-resolution plots
+│   ├── evaluation.m            % Calculation of Dice Similarity Coefficient (DSC)
+│   └── plot_manager.m          % Generation and export of high-resolution plots
+│
+├── deliverables/
+    ├── presentation.pptx
+    │
+    └── report/
+        ├── report.pdf
+        │
+        └── tex/
+            └── main.tex
