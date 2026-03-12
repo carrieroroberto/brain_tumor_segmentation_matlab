@@ -1,7 +1,7 @@
 # Brain Tumor Segmentation using Traditional Image Processing techniques in MATLAB
 ![MATLAB R2025b](https://img.shields.io/badge/MATLAB-R2025b-orange?logo=mathworks&logoColor=white)
 
-- **Students:** Roberto Carriero
+- **Student:** Roberto Carriero
 - **Course:** Image Processing (Computer Vision Module) - 2025/2026
 - **Program:** M.Sc. Computer Science Engineering (Artificial Intelligence and Data Science) - Politecnico di Bari
 
