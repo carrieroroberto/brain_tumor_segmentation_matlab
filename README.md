@@ -1,5 +1,5 @@
 # Brain Tumor Segmentation in MATLAB using Traditional Image Processing techniques
-[![MATLAB](https://img.shields.io/badge/matlab)](https://www.matlab.com/)
+![MATLAB](https://img.shields.io/badge/MATLAB-orange)
 
 - **Students:** Roberto Carriero
 - **Course:** Image Processing (Computer Vision Module) - 2025/2026
