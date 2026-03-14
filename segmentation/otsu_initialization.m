@@ -1,11 +1,10 @@
 function [seed_point, marker_int, marker_ext, img_roi] = otsu_initialization(img)
-    thresholds = multithresh(img, 3); 
+    thresholds = multithresh(img, 4);
     quantized = imquantize(img, thresholds);
-    all_bright_spots = (quantized >= 3);
+    all_bright_spots = (quantized >= 4);
     
-    se_break = strel('disk', 4); 
+    se_break = strel('disk', 4);
     broken_spots = imopen(all_bright_spots, se_break);
-    
     stats = regionprops(broken_spots, img, 'Area', 'MeanIntensity', 'PixelIdxList', 'Solidity');
     
     if isempty(stats)
@@ -20,23 +19,25 @@ function [seed_point, marker_int, marker_ext, img_roi] = otsu_initialization(img
         stats = regionprops(broken_spots, img, 'Area', 'MeanIntensity', 'PixelIdxList', 'Solidity');
     end
     
-    if isempty(stats)
-        error('Impossibile trovare candidati iper-intensi nella classe 3 di Otsu.');
-    end
-    
-    scores = [stats.Area] .* [stats.MeanIntensity] .* ([stats.Solidity].^3);
+    scores = [stats.Area] .* [stats.MeanIntensity] .* ([stats.Solidity].^2);
     [~, target_idx] = max(scores);
     
-    target_pixels = stats(target_idx).PixelIdxList;
-    [~, local_max_idx] = max(img(target_pixels));
-    [r, c] = ind2sub(size(img), target_pixels(local_max_idx));
+    temp_mask = false(size(img));
+    temp_mask(stats(target_idx).PixelIdxList) = true;
+    temp_mask = imfill(temp_mask, 'holes');
+    
+    core_mask = imerode(temp_mask, strel('disk', 3));
+    if sum(core_mask(:)) == 0
+        core_mask = temp_mask;
+    end
+    
+    idx = find(core_mask);
+    [r, c] = ind2sub(size(img), idx(round(end/2)));
     seed_point = [r, c];
     
-    tumor_mask = bwselect(broken_spots, c, r, 4); 
-    
+    tumor_mask = bwselect(broken_spots, c, r, 4);
     tumor_mask = imdilate(tumor_mask, se_break);
     tumor_mask = imfill(tumor_mask, 'holes');
-    
     tumor_mask = tumor_mask & all_bright_spots;
     
     img_roi = img;

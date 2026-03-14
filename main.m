@@ -1,4 +1,5 @@
 clear; clc; close all;
+addpath(genpath(pwd));
 
 img_dir = "dataset/Task01_BrainTumour/imagesTr/";
 gt_dir  = "dataset/Task01_BrainTumour/labelsTr/";
@@ -40,7 +41,7 @@ for i = 1:num_pazienti
             continue; 
         end
         
-        img_flair = vol(:, :, slice_scelta, 4);
+        img_flair = vol(:, :, slice_scelta, 1);
         img_gt    = vol_gt(:, :, slice_scelta);
         mask_gt   = img_gt > 0;
         
@@ -60,7 +61,7 @@ for i = 1:num_pazienti
         
         pixel_tumore = img_roi(m_int > 0);
         std_tumore = std(pixel_tumore);
-        tolleranza_dinamica = max(3.5 * std_tumore, 0.05);
+        tolleranza_dinamica = max(4 * std_tumore, 0.10);
         
         mask_rg_raw = region_growing(img_roi, seed_pt, tolleranza_dinamica);
         mask_ws_raw = marked_watershed(img_roi, m_int, m_ext);
