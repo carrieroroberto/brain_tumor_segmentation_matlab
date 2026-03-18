@@ -23,10 +23,10 @@ num_files = length(files); % numero totale di file da elaborare
 metrics(num_files) = struct( ...
     "paziente", "", ...
     "flair_dice", 0, "flair_sens", 0, "flair_prec", 0, ...
-    "t1c_dice", 0,   "t1c_sens", 0,  "t1c_prec", 0, ...
-    "t2_dice", 0,    "t2_sens", 0,   "t2_prec", 0, ...
-    "fus2_dice", 0,  "fus2_sens", 0, "fus2_prec", 0, ...
-    "fus3_dice", 0,  "fus3_sens", 0, "fus3_prec", 0);
+    "t1c_dice", 0, "t1c_sens", 0, "t1c_prec", 0, ...
+    "t2_dice", 0, "t2_sens", 0, "t2_prec", 0, ...
+    "fus2_dice", 0, "fus2_sens", 0, "fus2_prec", 0, ...
+    "fus3_dice", 0, "fus3_sens", 0, "fus3_prec", 0);
 
 %% ---------------------- PIPELINE DI ANALISI -----------------------------
 disp("======================================== INIZIO STUDIO COMPARATIVO ========================================");
@@ -41,7 +41,7 @@ for i = 1:num_files
     metrics(i).paziente = filename;
 
     % preprocessing
-    [imgs_proc, mask_gt, seed_map, prep] = pre_processing(path_img, path_gt);
+    [imgs_proc, mask_gt, seed_map] = pre_processing(path_img, path_gt);
     
     % segmentazione e post-processing
     flair_mask = post_processing(segmentation(imgs_proc.flair, seed_map));
@@ -83,14 +83,14 @@ for i = 1:num_files
     metrics(i).fus3_prec = fus3_prec;
 
     % stampa nel terminale
-    fprintf("[%03d/%03d] %s | FLAIR: %.3f | T1c: %.3f | T2: %.3f | FLAIR+T1c: %.3f | FLAIR+T1c+T2: %.3f\n", ...
+    fprintf("[%03d/%03d] %s -> Dice Score = FLAIR: %.3f | T1c: %.3f | T2: %.3f | FLAIR+T1c: %.3f | FLAIR+T1c+T2: %.3f\n", ...
             i, num_files, filename, flair_dice, t1c_dice, t2_dice, fus2_dice, fus3_dice);
 
     % generazione report grafico
     save_path_fig = output_path + "plots/" + filename + "_results.png";
     masks_cell = {flair_mask, t1c_mask, t2_mask, fus2_mask, fus3_mask};
-    dices_vec  = [flair_dice, t1c_dice, t2_dice, fus2_dice, fus3_dice];
-    %plotting(imgs_proc, mask_gt, masks_cell, dices_vec, filename, save_path_fig);
+    dices_vec = [flair_dice, t1c_dice, t2_dice, fus2_dice, fus3_dice];
+    plotting(imgs_proc, mask_gt, masks_cell, dices_vec, filename, save_path_fig);
 end
 
 fprintf("\nGrafici salvati nella sotto-cartella 'plots'.");
@@ -104,19 +104,19 @@ for i = 1:num_files
     fprintf(csv_detailed, "%s,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f\n", ...
         metrics(i).paziente, ...
         metrics(i).flair_dice, metrics(i).flair_sens, metrics(i).flair_prec, ...
-        metrics(i).t1c_dice,   metrics(i).t1c_sens,   metrics(i).t1c_prec, ...
-        metrics(i).t2_dice,    metrics(i).t2_sens,    metrics(i).t2_prec, ...
-        metrics(i).fus2_dice,  metrics(i).fus2_sens,  metrics(i).fus2_prec, ...
-        metrics(i).fus3_dice,  metrics(i).fus3_sens,  metrics(i).fus3_prec);
+        metrics(i).t1c_dice, metrics(i).t1c_sens, metrics(i).t1c_prec, ...
+        metrics(i).t2_dice, metrics(i).t2_sens, metrics(i).t2_prec, ...
+        metrics(i).fus2_dice, metrics(i).fus2_sens, metrics(i).fus2_prec, ...
+        metrics(i).fus3_dice, metrics(i).fus3_sens, metrics(i).fus3_prec);
 end
 fclose(csv_detailed);
 
 % calcolo delle medie globali per ciascuna sequenza
 mean_flair = [mean([metrics.flair_dice]), mean([metrics.flair_sens]), mean([metrics.flair_prec])];
-mean_t1c   = [mean([metrics.t1c_dice]),   mean([metrics.t1c_sens]),   mean([metrics.t1c_prec])];
-mean_t2    = [mean([metrics.t2_dice]),    mean([metrics.t2_sens]),    mean([metrics.t2_prec])];
-mean_fus2  = [mean([metrics.fus2_dice]),  mean([metrics.fus2_sens]),  mean([metrics.fus2_prec])];
-mean_fus3  = [mean([metrics.fus3_dice]),  mean([metrics.fus3_sens]),  mean([metrics.fus3_prec])];
+mean_t1c = [mean([metrics.t1c_dice]), mean([metrics.t1c_sens]), mean([metrics.t1c_prec])];
+mean_t2 = [mean([metrics.t2_dice]), mean([metrics.t2_sens]), mean([metrics.t2_prec])];
+mean_fus2 = [mean([metrics.fus2_dice]), mean([metrics.fus2_sens]), mean([metrics.fus2_prec])];
+mean_fus3 = [mean([metrics.fus3_dice]), mean([metrics.fus3_sens]), mean([metrics.fus3_prec])];
 
 % esportazione medie globali in CSV
 csv_global = fopen(output_path + "metrics/global.csv", "w");
