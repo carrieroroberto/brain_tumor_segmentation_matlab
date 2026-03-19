@@ -7,7 +7,7 @@
 
 ---
 
-## 📌 Project Overview
+##Project Overview
 The goal of this project is to implement, evaluate, and compare automatic segmentation paradigms for brain gliomas using MRI scans from the BraTS (Medical Segmentation Decathlon) dataset. 
 
 The analysis compares 5 distinct experimental configurations:
@@ -19,7 +19,7 @@ The analysis compares 5 distinct experimental configurations:
 
 The segmentation is achieved through a cascaded pipeline: **Multi-level Otsu Thresholding -> Region Growing -> Marker-Controlled Watershed**, which effectively prevents over-segmentation while maintaining high precision.
 
-## 📥 Dataset Download
+##Dataset Download
 The original MRI data (in NIfTI `.nii.gz` format) is required to run the code. Due to file size constraints, they are not included directly in this repository.
 
 **Import Instructions:**
@@ -27,7 +27,7 @@ The original MRI data (in NIfTI `.nii.gz` format) is required to run the code. D
 2. Download the required files.
 3. Move the downloaded content into the `dataset/` folder located in the main directory of this repository.
 
-## 📂 Project Architecture
+##Project Architecture
 
 ```text
 brain-tumor-segmentation-matlab/
