@@ -2,4 +2,3 @@ dataset/*
 resources/*
 __docs/*
 *.asv
-results/plots/*

@@ -9,6 +9,7 @@
 % dei risultati in formato CSV.
 
 clear; clc; close all; % pulisce workspace, command window e figure precedenti
+addpath("src") % aggiunge la cartella src al path per utilizzarne le funzioni
 
 %% ------------------------------ PARAMETRI -------------------------------
 img_dir = "dataset/Task01_BrainTumour/imagesTr/"; % cartella contenente le immagini MRI
