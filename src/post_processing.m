@@ -1,27 +1,29 @@
-function mask_clean = post_processing(mask_raw)
-% File: post_processing.m
-% Applica operazioni di algebra morfologica per la regolarizzazione dei contorni,
-% il riempimento delle cavità e la rimozione del rumore nella maschera segmentata.
-%
-% INPUT:
-% mask_raw - maschera binaria grezza ottenuta dalla pipeline di segmentazione
-%
-% OUTPUT:
-% mask_clean - maschera binaria finale post-processata e ripulita
+function mask_clean = post_processing(mask_raw, I_proc, seq_name, filename)
+    
+    post_processing_dir = "results/plots/" + filename + "/post_processing/";
+    mkdir(post_processing_dir);
 
-    % definizione dell'elemento strutturante (un disco di raggio 3 pixel)
     se = strel("disk", 3);
-    
-    % applica l'operazione di chiusura morfologica (closing)
-    % per smussare i bordi frastagliati e chiudere eventuali piccole insenature
     mask_clean = imclose(mask_raw, se);
-    
-    % riempimento dei buchi interni alla regione segmentata 
-    % (necessario per includere il core necrotico scuro all'interno del tumore)
     mask_clean = imfill(mask_clean, "holes");
-    
-    % estrae e mantiene esclusivamente la singola componente connessa con area maggiore
-    % (questo passaggio elimina piccoli artefatti o falsi positivi isolati nel cervello)
     mask_clean = bwareafilt(mask_clean, 1);
+    
+    fig = figure("Visible", "off");
         
+    subplot(1, 2, 1);
+    imshow(I_proc, []);
+    hold on;
+    visboundaries(mask_raw, "Color", "r");
+    title("Prima: Maschera Watershed Grezza");
+        
+    subplot(1, 2, 2);
+    imshow(I_proc, []);
+    hold on;
+    visboundaries(mask_clean, "Color", "g");
+    title("Dopo: Maschera con Operazioni Morfologiche");
+        
+    sgtitle("Post-Processing: " + seq_name + " - Paziente: " + filename);
+    saveas(fig, post_processing_dir + seq_name + "_post_processing.png");
+    close(fig);
+    
 end

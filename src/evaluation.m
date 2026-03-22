@@ -23,9 +23,9 @@ function [dice, sens, prec] = evaluation(mask_pred, mask_gt)
     dice = (2 * TP) / (2 * TP + FP + FN);
     
     % sensitivity: frazione di veri positivi rilevati sul totale dei positivi
-    sens = TP / (TP + FN);   
+    sens = TP / (TP + FN);
     
     % precision: frazione di veri positivi rilevati sul totale dei positivi predetti
-    prec = TP / (TP + FP);   
+    prec = TP / (TP + FP);
     
 end
