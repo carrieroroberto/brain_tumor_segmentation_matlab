@@ -47,7 +47,7 @@ function mask_clean = segmentation(I_proc, seed_map, seq_name, filename)
     visboundaries(mask_raw, "Color", "r");
     title("Risultato Finale");
     
-    sgtitle("Segmentazione: " + seq_name + " - Paziente: " + filename);
+    sgtitle("Segmentazione " + seq_name + " - Paziente: " + filename);
     saveas(fig, segmentation_dir + seq_name + "_segmentation.png");
     close(fig);
 

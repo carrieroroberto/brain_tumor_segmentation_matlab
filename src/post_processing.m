@@ -14,15 +14,15 @@ function mask_clean = post_processing(mask_raw, I_proc, seq_name, filename)
     imshow(I_proc, []);
     hold on;
     visboundaries(mask_raw, "Color", "r");
-    title("Prima: Maschera Watershed Grezza");
+    title("Prima - Maschera Watershed Grezza");
         
     subplot(1, 2, 2);
     imshow(I_proc, []);
     hold on;
     visboundaries(mask_clean, "Color", "g");
-    title("Dopo: Maschera con Operazioni Morfologiche");
+    title("Dopo - Maschera con Operazioni Morfologiche");
         
-    sgtitle("Post-Processing: " + seq_name + " - Paziente: " + filename);
+    sgtitle("Post-Processing " + seq_name + " - Paziente: " + filename);
     saveas(fig, post_processing_dir + seq_name + "_post_processing.png");
     close(fig);
     
