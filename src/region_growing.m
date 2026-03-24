@@ -2,11 +2,12 @@ function mask = region_growing(I, seedY, seedX, thresh)
 % File: region_growing.m
 % Esegue la segmentazione di un'immagine a partire da un punto iniziale (seme),
 % espandendo la regione ai pixel adiacenti che soddisfano un criterio di intensità.
+% L'implementazione evita la ricorsione sfruttando una Coda statica (BFS).
 %
 % INPUT:
-% I - matrice dell'immagine (in scala di grigi) da segmentare
-% seedY - coordinata Y (riga) del pixel di partenza (seme)
-% seedX - coordinata X (colonna) del pixel di partenza (seme)
+% I      - matrice dell'immagine (in scala di grigi) da segmentare
+% seedY  - coordinata Y (riga) del pixel di partenza (seme)
+% seedX  - coordinata X (colonna) del pixel di partenza (seme)
 % thresh - valore di soglia minima di intensità per includere un pixel nella regione
 %
 % OUTPUT:
@@ -54,9 +55,7 @@ function mask = region_growing(I, seedY, seedX, thresh)
             
             % assicura che nY e nX non escano dai bordi dell'immagine
             if (nY > 0 && nY <= rows) && (nX > 0 && nX <= cols)
-
-                % se il vicino non è ancora stato analizzato, lo segna
-                % comoe tale
+                % se il vicino non è ancora stato analizzato, lo segna come tale
                 if ~visited(nY, nX)
                     visited(nY, nX) = true;
                     
