@@ -1,4 +1,4 @@
-%% Segmentazione di Tumori Cerebrali in MRI: Analisi Comparativa tra Approccio a Sequenza Singola e Multi-Sequenza
+%% Segmentazione di Tumori Cerebrali in MRI: Analisi Comparativa tra Approcci a Sequenza Singola e Multi-Sequenza
 % Studente: Roberto Carriero - Matricola: 601240
 % Esame: Image Processing - A.A. 2025/2026
 %
