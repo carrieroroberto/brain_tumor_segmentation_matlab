@@ -1,4 +1,5 @@
 dataset/*
+results/plots/*
 resources/*
 __docs/*
 *.asv
