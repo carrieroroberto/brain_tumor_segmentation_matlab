@@ -1,7 +1,7 @@
 function [imgs_proc, mask_gt, seed_map] = pre_processing(path_img, path_gt, filename)
 % File: pre_processing.m
 % Esegue la standardizzazione dei dati e il miglioramento del segnale.
-% Applica normalizzazione Z-Score, filtraggio spaziale e equalizzazione CLAHE.
+% Applica normalizzazione Z-Score, filtraggio spaziale.
 % Genera inoltre combinazioni multimodali (Early Fusion) e si auto-documenta.
 %
 % INPUT:
@@ -52,25 +52,21 @@ function [imgs_proc, mask_gt, seed_map] = pre_processing(path_img, path_gt, file
     img_t2_norm = mat2gray(img_t2);
     img_t1_norm = mat2gray(img_t1);
     
-    % pipeline di riduzione rumore (Filtro Mediano) e aumento contrasto locale (CLAHE)
-    img_fl_pre = medfilt2(img_fl_norm, [3 3]);
-    img_fl_pre = adapthisteq(img_fl_pre, "ClipLimit", 0.015);
-    img_t1_pre = medfilt2(img_t1_norm, [3 3]);
-    img_t1_pre = adapthisteq(img_t1_pre, "ClipLimit", 0.015);
-    img_t1c_pre = medfilt2(img_t1c_norm, [3 3]);
-    img_t1c_pre = adapthisteq(img_t1c_pre, "ClipLimit", 0.015);
-    img_t2_pre = medfilt2(img_t2_norm, [3 3]);
-    img_t2_pre = adapthisteq(img_t2_pre, "ClipLimit", 0.015);
+    % riduzione rumore (Filtro Mediano)
+    img_fl_filt = medfilt2(img_fl_norm, [3 3]);
+    img_t1_filt = medfilt2(img_t1_norm, [3 3]);
+    img_t1c_filt = medfilt2(img_t1c_norm, [3 3]);
+    img_t2_filt = medfilt2(img_t2_norm, [3 3]);
     
     % salvataggio output strutturato
-    imgs_proc.flair = img_fl_pre;
-    imgs_proc.t1 = img_t1_pre;
-    imgs_proc.t1c = img_t1c_pre;
-    imgs_proc.t2 = img_t2_pre;
+    imgs_proc.flair = img_fl_filt;
+    imgs_proc.t1 = img_t1_filt;
+    imgs_proc.t1c = img_t1c_filt;
+    imgs_proc.t2 = img_t2_filt;
     
     % fusione multimodale (media pesata basata sulle caratteristiche cliniche)
-    imgs_proc.fus2 = 0.6*img_fl_pre + 0.4*img_t1c_pre;
-    imgs_proc.fus3 = 0.54*img_fl_pre + 0.16*img_t1c_pre + 0.30*img_t2_pre;
+    imgs_proc.fus2 = 0.6*img_fl_filt + 0.4*img_t1c_filt;
+    imgs_proc.fus3 = 0.54*img_fl_filt + 0.16*img_t1c_filt + 0.30*img_t2_filt;
     
     % generazione della mappa termica mediante smoothing Gaussiano
     seed_map = imgaussfilt(imgs_proc.fus3, 3);
@@ -94,9 +90,9 @@ function [imgs_proc, mask_gt, seed_map] = pre_processing(path_img, path_gt, file
     saveas(fig_eda, pre_processing_dir + "raw_histogram.png");
     close(fig_eda);
     
-    plot_pre_step(img_fl, img_fl_norm, img_fl_pre, mask_brain, "FLAIR", filename, pre_processing_dir);
-    plot_pre_step(img_t1c, img_t1c_norm, img_t1c_pre, mask_brain, "T1c", filename, pre_processing_dir);
-    plot_pre_step(img_t2, img_t2_norm, img_t2_pre, mask_brain, "T2", filename, pre_processing_dir);
+    plot_pre_step(img_fl, img_fl_norm, img_fl_filt, mask_brain, "FLAIR", filename, pre_processing_dir);
+    plot_pre_step(img_t1c, img_t1c_norm, img_t1c_filt, mask_brain, "T1c", filename, pre_processing_dir);
+    plot_pre_step(img_t2, img_t2_norm, img_t2_filt, mask_brain, "T2", filename, pre_processing_dir);
     plot_fus2_step(imgs_proc.flair, imgs_proc.t1c, imgs_proc.fus2, mask_brain, filename, pre_processing_dir);
     plot_fus3_step(imgs_proc.flair, imgs_proc.t1c, imgs_proc.t2, imgs_proc.fus3, mask_brain, filename, pre_processing_dir);
     
@@ -111,10 +107,10 @@ end
 
 % --- Funzioni accessorie di plotting ---
 
-function plot_pre_step(raw, norm, clahe, mask, seq, filename, save_path)
+function plot_pre_step(raw, norm, filt, mask, seq, filename, save_path)
     fig = figure("Visible", "off");
-    imgs = {raw, norm, clahe};
-    titles = ["Sequenza Grezza", "Normalizzazione Z-Score", "Filtro Rumore Mediano + CLAHE"];
+    imgs = {raw, norm, filt};
+    titles = ["Sequenza Grezza", "Normalizzazione Z-Score", "Filtro Rumore Mediano"];
     
     for k = 1:3
         subplot(2, 3, k);

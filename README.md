@@ -43,7 +43,7 @@ The original MRI data (in NIfTI `.nii.gz` format) is required to run the code. D
 3. **Outputs:** The pipeline exports results in the `results/` folder, organized as follows:
    - `metrics/`: Contains `detailed.csv` (per-patient metrics) and `global.csv` (aggregated Dice, Sensitivity, Precision).
    - `plots/<patient_name>/`: A dedicated folder for each patient, further divided into:
-     - `pre_processing/`: Breakdown of raw data, Z-Score normalization, CLAHE and fusion steps.
+     - `pre_processing/`: Breakdown of raw data, Z-Score normalization, median filter for denoising and fusion steps.
      - `segmentation/`: Step-by-step evolution (Otsu -> Region Growing -> Watershed) and the final comparison.
      - `post_processing/`: Before/After morphological refinement comparisons.
 
@@ -62,12 +62,12 @@ brain-tumor-segmentation-matlab/
 │   ├── metrics/                    % Per-patient and global average metrics in CSV format
 │   └── plots/                      % Folder for visual outputs
 │       └── <patient_name>/         % Patient-specific folder(s)
-│           ├── pre_processing/     % Shows EDA, Z-Score, CLAHE and Fusion steps
+│           ├── pre_processing/     % Shows EDA, Z-Score, Denoising and Fusion steps
 │           ├── segmentation/       % Shows seed map, segmentation of single sequences and final results.
 │           └── post_processing/    % Morphological operations plots
 │
 ├── src/                            % Folders of MATLAB custom functions
-│   ├── pre_processing.m            % Z-score, CLAHE, Fusion logic and pre-processing plotting
+│   ├── pre_processing.m            % Z-score, Median Filter, Fusion logic and pre-processing plotting
 │   ├── segmentation.m              % Cascaded pipeline (Otsu->RG->Watershed) and evolution plotting
 │   ├── region_growing.m            % Custom implementation of the Region Growing algorithm
 │   ├── post_processing.m           % Morphological operations and before/after plotting

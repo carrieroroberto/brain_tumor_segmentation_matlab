@@ -28,25 +28,42 @@ img_t2  = vol_4d(:,:,slice,4); % T2: dettaglio fluidi e confini
 brain_mask = img_fl > 0; 
 
 %% ---------------------- PLOT 1: SEQUENZA + ISTOGRAMMI ----------------
-fig1 = figure("Name", "Analisi Sequenze MRI"); 
 imgs = {img_fl, img_t1, img_t1c, img_t2}; 
 titles = ["FLAIR", "T1", "T1c", "T2"]; 
 
+figure();
 for i = 1:4
+    img = mat2gray(imgs{i});
     % riga superiore: visualizzazione spaziale della risonanza
-    subplot(2, 4, i); 
-    imshow(mat2gray(imgs{i})); 
+    subplot(2, 4, i);
+    imshow(img); 
     title(titles(i)); 
     
     % riga inferiore: distribuzione statistica delle intensità
     subplot(2, 4, i + 4);
-    data = imgs{i}(brain_mask); % isolamento dei pixel appartenenti al cervello
-    
+    data = img(brain_mask); % isolamento dei pixel appartenenti al cervello
     histogram(data); 
     xlabel("Intensità"); 
     ylabel("Numero Pixel"); 
 end
 sgtitle("Analisi Sequenze MRI - Paziente: " + filename);
+
+figure();
+for i = 1:4
+    img_clahe = adapthisteq(mat2gray(imgs{i}), "ClipLimit", 0.015);
+    % riga superiore: visualizzazione spaziale della risonanza
+    subplot(2, 4, i);
+    imshow(img_clahe);
+    title(titles(i));
+    
+    % riga inferiore: distribuzione statistica delle intensità
+    subplot(2, 4, i + 4);
+    data = img_clahe(brain_mask);
+    histogram(data); 
+    xlabel("Intensità"); 
+    ylabel("Numero Pixel"); 
+end
+sgtitle("Analisi Sequenze MRI (CLAHE) - Paziente: " + filename);
 
 %% -------------------------- PLOT 2: VOLUME 3D ---------------------------
 % attivazione del viewer OpenGL per il rendering volumetrico
