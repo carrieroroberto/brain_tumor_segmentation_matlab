@@ -27,7 +27,7 @@ The segmentation is achieved through a cascaded pipeline: **Multi-level Otsu Thr
 The original MRI data (in NIfTI `.nii.gz` format) is required to run the code. Due to file size constraints, they are not included directly in this repository.
 1. To download the dataset, visit the following shared OneDrive folder: **[Download Dataset](https://shorturl.at/3DwTw)**
 2. Download the `dataset/` folder.
-3. Move the downloaded folder into the root of this repository.
+3. Unzip and move the downloaded folder into the root of this repository.
 
 **Step 2: Environment Setup**
 1. Open **MATLAB**.
