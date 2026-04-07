@@ -1,17 +1,18 @@
-%% Segmentazione di Tumori Cerebrali in MRI: Analisi Comparativa tra Approcci a Sequenza Singola e Multi-Sequenza
+%% Segmentazione di Tumori Cerebrali in Immagini MRI: Analisi Comparativa tra Approccio Monomodale e Multimodale
 % Studente: Roberto Carriero - Matricola: 601240
 % Esame: Image Processing - A.A. 2025/2026
-%
-% File: main.m
+% Docente: Prof. Ing. Andrea Guerriero
+
+%% File: main.m
 % Script principale che gestisce l'intera pipeline di segmentazione.
 % Esegue l'elaborazione su tutti i pazienti, coordinando pre-processing, 
 % segmentazione, calcolo delle metriche e generazione dei report grafici.
 
 clear; clc; close all; % pulizia workspace, command window e figure
 warning("off", "all"); % disabilita i warning di sistema per pulizia command window
-addpath("src"); % aggiunge la cartella contenente le funzioni custom al progetto
+addpath("src"); % aggiunge la cartella con le funzioni custom al progetto
 
-% definizione dei percorsi contenenti i volumi e le ground truth
+% definizione dei percorsi dei volumi e le ground truth
 img_dir = "dataset/Task01_BrainTumour/imagesTr/";
 gt_dir = "dataset/Task01_BrainTumour/labelsTr/";
 files = dir(img_dir + "*.nii.gz");
@@ -91,7 +92,7 @@ for i = 1:num_files
               sprintf("Fus3 (FLAIR+T1c+T2) - Dice: %.3f", fus3_dice)
              ];
     
-    % inizializzazione della figura (non visibile) per il rendering
+    % inizializzazione della figura per il rendering
     fig = figure("Visible", "off");
     for j = 1:6
         % posizionamento e rendering del subplot corrente
@@ -100,14 +101,14 @@ for i = 1:num_files
         hold on;
         title(titles(j));
         
-        % overlay dei contorni della ground truth (colore verde)
+        % overlay dei contorni della ground truth (verde)
         h_gt = visboundaries(gt_mask, "Color", "g");
         
-        % aggiunta dell'overlay dei contorni predetti (colore rosso) per i subplot non-GT
+        % aggiunta dell'overlay dei contorni predetti (rosso) per gli altri subplot
         if j > 1
             h_pr = visboundaries(masks{j-1}, "Color", "r");
             
-            % inserimento della legenda globale in basso a destra solo nell'ultimo subplot
+            % inserimento della legenda globale in basso a destra nell'ultimo subplot
             if j == 6
                 lg = legend([h_gt h_pr], ["Ground Truth", "Predizione"], "Location", "southeast");
                 lg.Position(2) = 0.03;

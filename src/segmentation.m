@@ -1,7 +1,7 @@
 function mask_clean = segmentation(I_proc, seed_map, seq_name, filename)
-% File: segmentation.m
-% Implementa l'architettura ibrida per l'estrazione della maschera tumorale.
-% Applica sequenza di algoritmi: Otsu -> Region Growing -> Marked-Watershed.
+%% File: segmentation.m
+% Implementa l'algoritmo in cascata per l'estrazione della maschera
+% tumorale % (Otsu -> Region Growing -> Marked-Watershed)
 %
 % INPUT:
 % I_proc - immagine MRI bidimensionale post-processata
@@ -16,7 +16,8 @@ function mask_clean = segmentation(I_proc, seed_map, seq_name, filename)
     segmentation_dir = "results/plots/" + filename + "/segmentation/";
     mkdir(segmentation_dir);
     
-    % ricerca del picco di intensità sulla seed map per ottenere le coordinate iniziali del seed
+    % ricerca del picco di intensità sulla seed map per ottenere le
+    % coordinate iniziali del seme
     [~, maxIdx] = max(seed_map(:));
     [seedY, seedX] = ind2sub(size(I_proc), maxIdx);
     
@@ -24,11 +25,11 @@ function mask_clean = segmentation(I_proc, seed_map, seq_name, filename)
     levels = multithresh(I_proc, 2);
     mask_otsu = I_proc > levels(2);
     
-    % calcolo della soglia dinamica basata sul 6° percentile e avvio del region growing
+    % calcolo della soglia dinamica basata sul 6° percentile e avvio del RG
     thresh_rg = prctile(I_proc(mask_otsu), 6);
     mask_rg = region_growing(I_proc, seedY, seedX, thresh_rg);
     
-    % costruzione del bacino topografico tramite trasformata della distanza inversa
+    % costruzione del bacino topografico con trasformata della distanza inversa
     D = -bwdist(~mask_rg);
     
     % imposizione dei minimi locali per forzare l'algoritmo watershed sui marker di Otsu
@@ -47,7 +48,7 @@ function mask_clean = segmentation(I_proc, seed_map, seq_name, filename)
     % isolamento della componente morfologica connessa contenente il seed iniziale
     mask_raw = bwselect(mask_raw, seedX, seedY, 8);
     
-    % inizializzazione della figura (non visibile) per il salvataggio dell'analisi
+    % inizializzazione della figura per il salvataggio dell'analisi
     fig = figure("Visible", "off");
     
     % visualizzazione della maschera ottenuta tramite Otsu

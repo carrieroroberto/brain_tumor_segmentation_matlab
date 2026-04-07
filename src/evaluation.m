@@ -1,6 +1,7 @@
 function [dice, sens, prec] = evaluation(mask_pred, mask_gt)
-% File: evaluation.m
-% Calcola le metriche di valutazione della segmentazione: Dice Score, Sensitivity (Recall) e Precision.
+%% File: evaluation.m
+% Calcola le metriche di valutazione della segmentazione: Dice Score,
+% Sensitivity (Recall) e Precision.
 %
 % INPUT:
 % mask_pred - maschera predetta (binaria)
@@ -19,12 +20,12 @@ function [dice, sens, prec] = evaluation(mask_pred, mask_gt)
     FP = sum(mask_pred(:) & ~mask_gt(:));
     FN = sum(~mask_pred(:) & mask_gt(:));
     
-    % calcolo del dice score: misura di similarità spaziale tra predizione e ground truth
+    % calcolo del dice score come misura di similarità spaziale tra predizione e ground truth
     dice = (2 * TP) / (2 * TP + FP + FN);
     
-    % calcolo della sensitivity (recall): frazione di veri positivi rilevati sul totale dei positivi reali
+    % calcolo della sensitivity (recall) come frazione di veri positivi rilevati sul totale dei positivi reali
     sens = TP / (TP + FN);
     
-    % calcolo della precision: frazione di veri positivi rilevati sul totale dei positivi predetti
+    % calcolo della precision come frazione di veri positivi rilevati sul totale dei positivi predetti
     prec = TP / (TP + FP);
 end

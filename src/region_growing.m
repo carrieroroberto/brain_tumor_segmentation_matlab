@@ -1,5 +1,5 @@
 function mask = region_growing(I, seedY, seedX, thresh)
-% File: region_growing.m
+%% File: region_growing.m
 % Esegue la segmentazione di un'immagine a partire da un punto iniziale,
 % espandendo la regione ai pixel adiacenti che soddisfano un criterio di intensità.
 % L'implementazione utilizza una coda statica.
@@ -13,7 +13,7 @@ function mask = region_growing(I, seedY, seedX, thresh)
 % OUTPUT:
 % mask - maschera binaria risultante (true per i pixel appartenenti alla regione)
 
-    % estrazione delle dimensioni spaziali dell'immagine in analisi
+    % estrazione delle dimensioni dell'immagine in analisi
     [rows, cols] = size(I);
     
     % inizializzazione della maschera logica di output e della mappa dei pixel visitati

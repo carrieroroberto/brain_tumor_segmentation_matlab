@@ -1,5 +1,5 @@
 function mask_clean = post_processing(mask_raw, I_proc, seq_name, filename)
-% File: post_processing.m
+%% File: post_processing.m
 % Applica operazioni morfologiche per la regolarizzazione dei contorni e
 % il riempimento delle cavità. Genera il grafico di confronto prima/dopo.
 %
@@ -25,10 +25,10 @@ function mask_clean = post_processing(mask_raw, I_proc, seq_name, filename)
     % riempimento dei vuoti interni eventuali
     mask_clean = imfill(mask_clean, "holes");
     
-    % filtraggio delle componenti connesse per preservare esclusivamente la massa tumorale
+    % filtraggio delle componenti connesse per preservare solo la massa tumorale
     mask_clean = bwareafilt(mask_clean, 1);
     
-    % inizializzazione della figura (non visibile) per l'esportazione del confronto
+    % inizializzazione della figura per l'esportazione del confronto
     fig = figure("Visible", "off");
         
     % visualizzazione della maschera grezza di partenza sovrapposta all'immagine originale
