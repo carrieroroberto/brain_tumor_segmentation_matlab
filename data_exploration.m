@@ -8,7 +8,7 @@
 clear; clc; close all; % pulizia workspace, command window e figure
 warning("off", "all"); % disabilita i warning di sistema per mantenere pulito l'output in console
 
-id = "140"; % identificativo del paziente campione per l'analisi
+id = "128"; % identificativo del paziente campione per l'analisi
 filename = "BRATS_" + id + ".nii.gz";
 path_img = "dataset/Task01_BrainTumour/imagesTr/" + filename;
 path_gt = "dataset/Task01_BrainTumour/labelsTr/" + filename;
