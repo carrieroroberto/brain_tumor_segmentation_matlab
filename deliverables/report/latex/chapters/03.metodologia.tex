@@ -46,7 +46,7 @@ Per ciascun paziente viene costruita una figura (\textit{comparison\_results.png
 
 Durante l’esecuzione, lo script stampa nella Command Window una riga di avanzamento per ogni paziente, riportando il numero progressivo del caso e i valori di \textit{Dice Score} ottenuti per tutte le configurazioni considerate.
 
-Al termine dell’elaborazione, viene stampato il riepilogo delle metriche medie e vengono prodotti due file \textit{CSV}. Il primo, \textit{detailed.csv}, contiene una riga per ciascun paziente e riporta tutte le metriche ottenute per ogni configurazioni. Il secondo, \textit{global.csv}, contiene invece i valori medi delle metriche calcolate sull’intero dataset per ciascuna sequenza.
+Al termine dell’elaborazione, viene stampato il riepilogo delle metriche medie e vengono prodotti due file \textit{CSV}. Il primo, \textit{detailed.csv}, contiene una riga per ciascun paziente e riporta tutte le metriche ottenute per ogni configurazione. Il secondo, \textit{global.csv}, contiene invece i valori medi delle metriche calcolate sull’intero dataset per ciascuna sequenza.
 
 \subsection{Analisi Esplorativa dei Dati (EDA)}
 La fase di EDA consente di confrontare il comportamento delle diverse sequenze MRI, analizzandone sia l’aspetto visivo sia la distribuzione delle intensità prima e dopo il miglioramento del contrasto.
@@ -253,7 +253,7 @@ In caso negativo, esso viene segnato come visitato e, se la sua intensità risul
 \paragraph{Watershed con marcatori}
 La maschera prodotta dal \textit{Region Growing} viene migliorata mediante l’algoritmo \textit{Marker-Controlled Watershed}~\cite{vincent1991}, che considera l’immagine come una superficie topografica e separa le regioni in base alle zone che si sviluppano attorno agli stessi minimi locali. 
 
-Tuttavia può soffrire di \textit{over-segmentation}, generando un numero elevato di regioni piccole e sparse. Per ridurre questo effetto, sono stati impiegati marcatori espliciti estratti dal \textit{Region Growing}~\cite{grau2004}.
+Tuttavia, può soffrire di \textit{over-segmentation}, generando un numero elevato di regioni piccole e sparse. Per ridurre questo effetto, sono stati impiegati marcatori espliciti estratti dal \textit{Region Growing}~\cite{grau2004}.
 In particolare, viene calcolata la trasformata della distanza inversa sulla maschera ottenuta da esso:
 \[
 D = -\,\operatorname{bwdist}(\neg M_{\text{RG}})
@@ -266,7 +266,7 @@ D_{\text{mod}} = \operatorname{imimposemin}(D, M_{\text{Otsu}})
 Per evitare l’espansione verso lo sfondo, la trasformata viene limitata ponendo a $-\infty$ i valori esterni all'area considerata. Infine, i bordi di separazione ottenuti vengono rimossi e viene selezionata esclusivamente la componente connessa contenente il seme iniziale, ovvero la regione tumorale.
 
 \paragraph{Risultati intermedi della segmentazione}
-Per ciascuna configurazione analizzata, viena salvata una figura che riassume i passaggi della pipeline, tra cui la maschera ottenuta con \textit{Otsu} (in giallo), l'espansione del \textit{Region Growing} (in ciano), il risultato del \textit{Watershed} (in magenta) e la maschera finale non rifinita (in rosso), come riportato di seguito.
+Per ciascuna configurazione analizzata, viene salvata una figura che riassume i passaggi della pipeline, tra cui la maschera ottenuta con \textit{Otsu} (in giallo), l'espansione del \textit{Region Growing} (in ciano), il risultato del \textit{Watershed} (in magenta) e la maschera finale non rifinita (in rosso), come riportato di seguito.
 
 \begin{figure}[H]
     \centering
