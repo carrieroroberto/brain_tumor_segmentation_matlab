@@ -83,12 +83,12 @@ brain-tumor-segmentation-matlab/
         └── latex/                  % LaTeX source files
 ```
 
-# Results
+## Results
 
 The table below reports the average segmentation performance across the dataset for each experimental configuration.
 
 | Sequence / Fusion | Dice Avg | Sensitivity Avg | Precision Avg |
-|-------------------|---------:|----------------:|--------------:|
+|:-----------------:|:--------:|:---------------:|:-------------:|
 | FLAIR             | 0.795    | 0.765           | 0.900         |
 | T1c               | 0.195    | 0.178           | 0.886         |
 | T2                | 0.520    | 0.428           | 0.893         |
