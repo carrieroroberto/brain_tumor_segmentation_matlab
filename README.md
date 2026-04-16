@@ -81,3 +81,22 @@ brain-tumor-segmentation-matlab/
     └── report/                     % Source files of written report
         ├── report.pdf              % Compiled PDF of the report
         └── latex/                  % LaTeX source files
+```
+
+# Results
+
+The table below reports the average segmentation performance across the dataset for each experimental configuration.
+
+| Sequence / Fusion | Dice Avg | Sensitivity Avg | Precision Avg |
+|-------------------|---------:|----------------:|--------------:|
+| FLAIR             | 0.795    | 0.765           | 0.900         |
+| T1c               | 0.195    | 0.178           | 0.886         |
+| T2                | 0.520    | 0.428           | 0.893         |
+| Fus2              | 0.755    | 0.767           | 0.842         |
+| Fus3              | 0.806    | 0.744           | 0.935         |
+
+### Comments
+- **Fus3** achieves the best overall **Dice score** and **Precision** on average.
+- **FLAIR** is the strongest **single-sequence** solution.
+- **Fus2** achieves the highest **Sensitivity**, also better than Fus3.
+- **T1c** performs poorly in terms of Dice and Sensitivity, so it is not sufficient as a standalone input for the task.
